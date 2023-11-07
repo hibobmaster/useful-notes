@@ -1,0 +1,38 @@
+services:
+  rocketchat:
+    container_name: rocketchat
+    image: rocketchat-arm:6.4.5
+    restart: unless-stopped
+    volumes:
+      - ./uploads:/app/uploads
+      - ./chat:/home/chat
+
+    environment:
+      MONGO_URL: "mongodb://mongodb:27017/rocketchat?replicaSet=rs0&directConnection=true"
+      MONGO_OPLOG_URL: "mongodb://mongodb:27017/local?replicaSet=rs0&directConnection=true"
+      # change chat.example.com to your server's name
+      ROOT_URL: https://chat.example.com
+      PORT: 3000
+      DEPLOY_METHOD: docker
+    depends_on:
+      - mongodb   
+    ports:
+      - 127.0.0.1:3002:3000
+
+  mongodb:
+    container_name: rocketchat-mongodb
+    image: mongo:6.0
+    restart: unless-stopped
+    volumes:
+      - ./data/db:/data/db
+      - ./data/dump:/dump
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all"]
+    environment:
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_NAME: rs0
+      MONGODB_PORT_NUMBER: 27017
+      MONGODB_INITIAL_PRIMARY_HOST: mongodb
+      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
+      MONGODB_ENABLE_JOURNAL: "true"
+      ALLOW_EMPTY_PASSWORD: "yes"
