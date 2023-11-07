@@ -1,0 +1,37 @@
+services:
+  postgres:
+    container_name: postgres_mattermost
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=mattermost
+      - POSTGRES_PASSWORD=mattermost
+      - POSTGRES_DB=mattermost
+
+  mattermost:
+    depends_on:
+      - postgres
+    container_name: mattermost
+    image: mattermost-arm:9.2.1
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8065:8065
+    volumes:
+      - ./mattermost/config:/mattermost/config
+      - ./mattermost/data:/mattermost/data
+      - ./mattermost/logs:/mattermost/logs
+      - ./mattermost/plugins:/mattermost/plugins
+      - ./mattermost/client/plugins:/mattermost/client/plugins
+      - ./mattermost/bleve-indexes:/mattermost/bleve-indexes
+    environment:
+      # necessary Mattermost options/variables (see env.example)
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mattermost:mattermost@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+
+      # necessary for bleve
+      - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
+
+      # change chat.example.com to your domain
+      - MM_SERVICESETTINGS_SITEURL=https://chat.example.com
