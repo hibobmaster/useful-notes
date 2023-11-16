@@ -11,7 +11,7 @@ RUN groupadd -g ${PGID} rocketchat  \
 
 VOLUME /app/uploads
 
-ENV RC_VERSION 6.4.5
+ENV RC_VERSION 6.4.6
 
 WORKDIR /app
 RUN set -eux \
