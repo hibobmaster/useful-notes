@@ -15,7 +15,8 @@ docker build . -t rocketchat-arm:6.4.6
 mkdir /opt/rocketchat
 cd /opt/rocketchat
 mkdir chat
-mkdir uploadschown 2000:2000 -R . 
+mkdir uploads
+chown 2000:2000 -R . 
 wget https://github.com/hibobmaster/useful-notes/raw/main/rocketchat/compose.yaml
 ```
 Change `chat.example.com` to your server's name.
