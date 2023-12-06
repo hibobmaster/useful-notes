@@ -21,15 +21,6 @@ wget https://github.com/hibobmaster/useful-notes/raw/main/rocketchat/compose.yam
 ```
 Change `chat.example.com` to your server's name.
 
-Launch mongodb first
-```sh
-docker compose up mongodb -d
-docker exec -it rocketchat-mongodb bash
-mongosh
-rs.initiate()
-exit
-exit
-```
 Spin up container
 ```sh
 docker compose up -d

@@ -21,18 +21,25 @@ services:
 
   mongodb:
     container_name: rocketchat-mongodb
-    image: mongo:6.0
+    image: mongo:6
     restart: unless-stopped
     volumes:
       - ./data/db:/data/db
       - ./data/dump:/dump
     entrypoint: [ "/usr/bin/mongod", "--replSet", "rs0", "--bind_ip_all"]
-    environment:
-      MONGODB_REPLICA_SET_MODE: primary
-      MONGODB_REPLICA_SET_NAME: rs0
-      MONGODB_PORT_NUMBER: 27017
-      MONGODB_INITIAL_PRIMARY_HOST: mongodb
-      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
-      MONGODB_ADVERTISED_HOSTNAME: mongodb
-      MONGODB_ENABLE_JOURNAL: "true"
-      ALLOW_EMPTY_PASSWORD: "yes"
+
+  mongo-init-replica:
+    image: mongo:6
+    command: >
+      bash -c
+        "for i in `seq 1 30`; do
+          mongosh mongodb/rocketchat --eval \"
+            rs.initiate({
+              _id: 'rs0',
+              members: [ { _id: 0, host: 'localhost:27017' } ]})\" &&
+          s=$$? && break || s=$$?;
+          echo \"Tried $$i times. Waiting 5 secs...\";
+          sleep 5;
+        done; (exit $$s)"
+    depends_on:
+      - mongodb
