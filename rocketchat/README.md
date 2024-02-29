@@ -1,5 +1,5 @@
 ## Dockerfile for linux arm64 rocketchat
-rocketchat version: 6.6.1
+rocketchat version: 6.6.2
 
 ## Setup steps
 1. Build rocketchat docker image
@@ -7,7 +7,7 @@ rocketchat version: 6.6.1
 mkdir -p ~/build/rocketchat
 cd ~/build/rocketchat
 wget https://github.com/hibobmaster/useful-notes/raw/main/rocketchat/Dockerfile
-docker build . -t rocketchat-arm:6.6.1
+docker build . -t rocketchat-arm:6.6.2
 ```
 
 2. Prepare and spin up container
