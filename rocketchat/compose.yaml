@@ -1,7 +1,7 @@
 services:
   rocketchat:
     container_name: rocketchat
-    image: hibobmaster/rocketchat-arm:6.7.2
+    image: hibobmaster/rocketchat-arm:6.8.0
     restart: unless-stopped
     volumes:
       - ./uploads:/app/uploads
