@@ -1,6 +1,6 @@
 
 ## Dockerfile for linux arm64 mattermost
-mattermost version: 9.7.4
+mattermost version: 9.8.0
 
 ## Setup steps
 ```sh
@@ -11,7 +11,7 @@ wget https://raw.githubusercontent.com/hibobmaster/useful-notes/main/mattermost/
 
 Build arm64 docker image
 ```
-docker build . -t mattermost-arm:9.7.4
+docker build . -t mattermost-arm:9.8.0
 ```
 
 ---
