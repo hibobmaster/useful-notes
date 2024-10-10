@@ -14,7 +14,7 @@ services:
     depends_on:
       - postgres
     container_name: mattermost
-    image: hibobmaster/mattermost-arm:9.11.0
+    image: hibobmaster/mattermost-arm:10.0.0
     restart: unless-stopped
     ports:
       - 127.0.0.1:8065:8065
