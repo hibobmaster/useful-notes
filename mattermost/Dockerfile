@@ -5,7 +5,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Some ENV variables
 ENV PATH="/mattermost/bin:${PATH}"
-ARG VERSION=10.1.1
+ARG VERSION=10.1.2
 ARG PUID=2000
 ARG PGID=2000
 ARG MM_PACKAGE="https://releases.mattermost.com/${VERSION}/mattermost-${VERSION}-linux-arm64.tar.gz?src=docker"
